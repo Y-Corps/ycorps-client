@@ -22,7 +22,8 @@ export default function Home() {
                     Y.Corps
                 </h1>
                 <p className="text-lg font-bold text-white">
-                    An IOT based Project! Created by an Group of a Students!
+                    An IOT based Project! Created by a Group of a Students from
+                    the corner of the Internet!
                 </p>
                 <div className="">
                     <LoginButton mode="modal" asChild>
