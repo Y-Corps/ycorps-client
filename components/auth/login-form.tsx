@@ -77,7 +77,7 @@ export const LoginForm = () => {
         <div>
             <CardWrapper
                 headLabel="Welcome Back!"
-                backButtonLabel={showTwoFactor ? "" : "Dont have a account?"}
+                backButtonLabel={showTwoFactor ? "" : "Dont have an account?"}
                 backButtonHref={showTwoFactor ? "" : "/auth/register"}
                 showSocial={!showTwoFactor}
             >
