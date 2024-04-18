@@ -1,4 +1,3 @@
-import email from "next-auth/providers/email";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -27,13 +26,13 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     });
 };
 
-export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+export const sendTwoFactorTokenEmail = async (email: string, code: string) => {
     // const confirmtokenlink = `${domain}/auth/new-verification?token=${token}`;
 
     await resend.emails.send({
-        from: "verifyotp@nikunja.online",
+        from: "otp@nikunja.online",
         to: email,
         subject: "2FA CODE🔐😊",
-        html: `<p>Here's your Two factor authentication code 👇</p><br><h1>${token}</h1>`,
+        html: `<p>Here's your Two factor authentication code 👇</p><br><h1>${code}</h1>`,
     });
 };

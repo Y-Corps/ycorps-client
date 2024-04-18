@@ -1,12 +1,13 @@
 export const publicRoutes = [
     "/",
     "/auth/new-verification",
-    // "/api/name",
+    "/api/name",
     // "/auth/register",
     // "/auth/error",
     // "/auth/reset",
     // "/auth/new-password",
-    // "/settings"
+    // "/iotsettings",
+    // "/dashboard",
 ];
 
 export const authRoutes = [

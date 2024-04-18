@@ -1,87 +1,83 @@
 "use client";
-
-import { Button } from "@/components/ui/button";
+import dotenv from "dotenv";
+dotenv.config();
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Form } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-
-const page = () => {
-    const [socket, setsocket] = useState<any>(undefined);
+import { Popovers } from "./_components/popovers";
+import { MdOutlineSettingsInputComponent } from "react-icons/md";
+const IO = io(process.env.NEXT_PUBLIC_SOCKET_URL || "");
+const Page = () => {
     const [isAutomated, setIsAutomated] = useState<boolean>(false);
-    const [isFanON, setIsFanON] = useState<boolean>(false);
+    const [isFanON2, setIsFanON] = useState<boolean>(true);
     const [isVentON, setIsVentON] = useState<boolean>(false);
     const [isLightON, setIsLightON] = useState<boolean>(false);
+
     useEffect(() => {
-        const socket = io("http://localhost:3501");
-            setsocket(socket);
-        }, []);
-        
-        useEffect(() => {
-            if (socket) {
-                
-        
-        socket.on("isAutomated", (data: string) => {
-            if (data === "on") {
-                setIsAutomated(true);
+        if (IO) {
+            IO.on("isAutomated", (data: string) => {
+                if (data === "on") {
+                    setIsAutomated(true);
+                    console.log(data);
+                }
+                if (data === "off") {
+                    setIsAutomated(false);
+                    console.log(data);
+                }
                 console.log(data);
-            }
-            if (data === "off") {
-                setIsAutomated(false);
-                console.log(data);
+            });
 
-            }
-            console.log(data)
-        });
-        socket.on("isFanOn", (data: string) => {
-            if (data === "on") {
-                setIsFanON(true);
+            IO.on("isFanOn", (data: string) => {
+                if (data === "on") {
+                    setIsFanON(true);
+                    console.log(data);
+                }
+                if (data === "off") {
+                    setIsFanON(false);
+                    console.log(data);
+                }
                 console.log(data);
-            }
-            if (data === "off") {
-                setIsFanON(false);
-                console.log(data);
+            });
 
-            }
-            console.log(data)
-        });
-        socket.on("isLightOn", (data: string) => {
-            if (data === "on") {
-                setIsLightON(true);
+            IO.on("isLightOn", (data: string) => {
+                if (data === "on") {
+                    setIsLightON(true);
+                    console.log(data);
+                }
+                if (data === "off") {
+                    setIsLightON(false);
+                    console.log(data);
+                }
                 console.log(data);
-            }
-            if (data === "off") {
-                setIsLightON(false);
+            });
+
+            IO.on("isVentOn", (data: string) => {
+                if (data === "on") {
+                    setIsVentON(true);
+                    console.log(data);
+                }
+                if (data === "off") {
+                    setIsVentON(false);
+                    console.log(data);
+                }
                 console.log(data);
+            });
+        }
+    }, []);
 
-            }
-            console.log(data)
+    const onsave = () => {};
 
-        });
-        socket.on("isVentOn", (data: string) => {
-            if (data === "on") {
-                setIsVentON(true);
-                console.log(data);
-            }
-            if (data === "off") {
-                setIsVentON(false);
-                console.log(data);
-
-            }
-            console.log(data)
-
-        });
-    }
-    }, [socket]);
     return (
         <div>
             <Card className="bg-secondary flex justify-between flex-col items-center p-4 rounded-xl w-[98vw] mx-4  md:w-[70vw]  shadow-sm">
                 <CardHeader>
-                    <p className="text-3xl font-semibold text-center">
-                        ⚙️ IOT Settings
+                    <p className="text-3xl flex flex-row space-x-2 font-semibold text-center">
+                        <MdOutlineSettingsInputComponent className="text-black size-9" />{" "}
+                        <span> IOT Settings</span>
                     </p>
                 </CardHeader>
+
                 <CardContent className="w-[100%]">
                     <div className="space-y-4">
                         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm hover:bg-slate-200">
@@ -94,10 +90,10 @@ const page = () => {
                                 </div>
                             </div>
                             <Switch
-                            checked={isAutomated}
+                                checked={isAutomated}
                                 onCheckedChange={(isChecked) => {
                                     const message = isChecked ? "on" : "off";
-                                    socket.emit("isAutomated", message);
+                                    IO.emit("isAutomated", message);
                                     message === "on" && setIsAutomated(true);
                                     message === "off" && setIsAutomated(false);
                                 }}
@@ -108,14 +104,28 @@ const page = () => {
                                 <div className="text-lg font-semibold">Fan</div>
                                 <div className="text-sm">Turn the fan ON!</div>
                             </div>
-                            <Switch
-                            checked={isFanON}
-                                onCheckedChange={(isChecked) => {
-                                    const message = isChecked ? "on" : "off";
-                                    socket.emit("isFanOn", message);
-                                }}
-                                disabled={isAutomated}
-                            />
+
+                            {isAutomated ? (
+                                <Popovers
+                                    poplabel="Temp"
+                                    label="Temprature Value"
+                                    desc="Set threshold Value for DHT11 sensor in (°C)"
+                                    setInitialValue="30"
+                                    setFinalValue="36"
+                                    onSave={onsave}
+                                />
+                            ) : (
+                                <Switch
+                                    checked={isFanON2}
+                                    onCheckedChange={(isChecked) => {
+                                        const message = isChecked
+                                            ? "on"
+                                            : "off";
+                                        IO.emit("isFanOn", message);
+                                        setIsFanON(isChecked);
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm hover:bg-slate-200">
                             <div className="space-y-0.5">
@@ -126,14 +136,27 @@ const page = () => {
                                     Turn the ventilation on!
                                 </div>
                             </div>
-                            <Switch
-                            checked={isVentON}
-                                onCheckedChange={(isChecked) => {
-                                    const message = isChecked ? "on" : "off";
-                                    socket.emit("isVentOn", message);
-                                }}
-                                disabled={isAutomated}
-                            />
+                            {isAutomated ? (
+                                <Popovers
+                                    poplabel="Gas"
+                                    label="Gas Concentration"
+                                    desc="Set threshold Value for MQ135 sensor in (ppm)"
+                                    setInitialValue="200"
+                                    setFinalValue="250"
+                                    onSave={onsave}
+                                />
+                            ) : (
+                                <Switch
+                                    checked={isVentON}
+                                    onCheckedChange={(isChecked) => {
+                                        const message = isChecked
+                                            ? "on"
+                                            : "off";
+                                        IO.emit("isVentOn", message);
+                                        // setIsVentON(isChecked);
+                                    }}
+                                />
+                            )}
                         </div>
                         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm hover:bg-slate-200">
                             <div className="space-y-0.5">
@@ -144,22 +167,33 @@ const page = () => {
                                     Turn the Lights on
                                 </div>
                             </div>
-                            <Switch
-                            checked={isLightON}
-
-                                onCheckedChange={(isChecked) => {
-                                    const message = isChecked ? "on" : "off";
-                                    socket.emit("isLightOn", message);
-                                }}
-                                disabled={isAutomated}
-                            />
+                            {isAutomated ? (
+                                <Popovers
+                                    poplabel="Light"
+                                    label="Gas Concentration"
+                                    desc="Set threshold Value for LDR sensor in (lux)"
+                                    setInitialValue="150"
+                                    setFinalValue="200"
+                                    onSave={onsave}
+                                />
+                            ) : (
+                                <Switch
+                                    checked={isLightON}
+                                    onCheckedChange={(isChecked) => {
+                                        const message = isChecked
+                                            ? "on"
+                                            : "off";
+                                        IO.emit("isLightOn", message);
+                                        setIsLightON(isChecked);
+                                    }}
+                                />
+                            )}
                         </div>
                     </div>
                 </CardContent>
             </Card>
-
         </div>
     );
 };
 
-export default page;
+export default Page;

@@ -1,6 +1,9 @@
 import React from "react";
-
-const MQ135 = () => {
+interface MQ135Props {
+    gasConcentration: string;
+    timeStamp: string;
+}
+const MQ135 = ({ gasConcentration, timeStamp }:MQ135Props) => {
     return (
         <div className="block w-[150rem] max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
             <div className="flex w-[100%] justify-center text-center">
@@ -14,11 +17,11 @@ const MQ135 = () => {
                         Gas <br /> Concentration
                     </h6>
                     <h1 className="mb-2 flex flex-row gap-x-3  text-5xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        200<p className="text-base">PPM</p>
+                        {gasConcentration}<p className="text-base">ppm</p>
                     </h1>
                 </div>
 
-                <p className="text-sm">TimeStamp</p>
+                <p className="text-sm font-semibold">{timeStamp}</p>
             </div>
         </div>
     );

@@ -11,7 +11,7 @@ const font = Poppins({
 
 export default function Home() {
     return (
-        <main className="flex h-screen flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-700">
+        <main className="flex h-screen flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#8576FF] to-[#1C1678]">
             <div className="space-y-4 text-center">
                 <h1
                     className={cn(
@@ -22,8 +22,10 @@ export default function Home() {
                     Y.Corps
                 </h1>
                 <p className="text-lg font-bold text-white">
-                    An IOT based Project! Created by a Group of a Students from
-                    the corner of the Internet!
+                    From the depths of creativity to the forefront of
+                    technology, <br />
+                    Y.Corps brings your ideas to life in the Internet of Things
+                    realm!
                 </p>
                 <div className="">
                     <LoginButton mode="modal" asChild>

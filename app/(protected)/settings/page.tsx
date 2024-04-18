@@ -28,7 +28,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { IoSettingsOutline } from "react-icons/io5";
 import { UserRole } from "@prisma/client";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { settings } from "@/action/settings";
@@ -75,8 +75,9 @@ const SettingsPage = () => {
     return (
         <Card className="bg-secondary flex justify-between flex-col items-center p-4 rounded-xl w-[98vw] mx-4  md:w-[70vw]  shadow-sm">
             <CardHeader>
-                <p className="text-3xl font-semibold text-center">
-                    ⚙️ Settings
+                <p className="text-3xl flex flex-row space-x-2 font-semibold text-center">
+                    <IoSettingsOutline className="text-black size-9" />{" "}
+                    <span> Settings</span>
                 </p>
             </CardHeader>
             <CardContent className="w-[100%]">
