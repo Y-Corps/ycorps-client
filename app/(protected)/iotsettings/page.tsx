@@ -65,7 +65,12 @@ const Page = () => {
             });
         }
     }, []);
-
+    // function emitCurrentTime() {
+    //     const currentTime = new Date().toLocaleTimeString();
+    //     console.log("Current Time:", currentTime); // Log current time on the server console
+    //     IO.emit("time", {"time":currentTime}); // Emit current time to all connected clients
+    // }
+    // setInterval(emitCurrentTime, 1000);
     const onsave = () => {};
 
     return (
@@ -112,15 +117,15 @@ const Page = () => {
                                     desc="Set threshold Value for DHT11 sensor in (°C)"
                                     setInitialValue="30"
                                     setFinalValue="36"
-                                    onSave={onsave}
+                                    // onSave={onsave}
+                                    threshold="DTHThreshold"
                                 />
                             ) : (
                                 <Switch
                                     checked={isFanON2}
                                     onCheckedChange={(isChecked) => {
-                                        const message = isChecked
-                                            ? "on"
-                                            : "off";
+                                        const message = { "isFanOn": isChecked };
+
                                         IO.emit("isFanOn", message);
                                         setIsFanON(isChecked);
                                     }}
@@ -143,15 +148,14 @@ const Page = () => {
                                     desc="Set threshold Value for MQ135 sensor in (ppm)"
                                     setInitialValue="200"
                                     setFinalValue="250"
-                                    onSave={onsave}
+                                    // onSave={onsave}
+                                    threshold="MQ135Threshold"
                                 />
                             ) : (
                                 <Switch
                                     checked={isVentON}
                                     onCheckedChange={(isChecked) => {
-                                        const message = isChecked
-                                            ? "on"
-                                            : "off";
+                                        const message = { "isVentOn": isChecked };
                                         IO.emit("isVentOn", message);
                                         // setIsVentON(isChecked);
                                     }}
@@ -174,16 +178,15 @@ const Page = () => {
                                     desc="Set threshold Value for LDR sensor in (lux)"
                                     setInitialValue="150"
                                     setFinalValue="200"
-                                    onSave={onsave}
+                                    // onSave={onsave}
+                                    threshold="LDRThreshold"
                                 />
                             ) : (
                                 <Switch
                                     checked={isLightON}
                                     onCheckedChange={(isChecked) => {
-                                        const message = isChecked
-                                            ? "on"
-                                            : "off";
-                                        IO.emit("isLightOn", message);
+                                        const message = { "is_automated": isChecked };
+                                        IO.emit("isLightOn", {"message":message});
                                         setIsLightON(isChecked);
                                     }}
                                 />

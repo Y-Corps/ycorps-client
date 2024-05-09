@@ -3,7 +3,7 @@
 ### Introduction:
 
 The Next.js IoT Dashboard is a web application designed to interact with IoT devices, specifically Arduino NodeMCU, via WebSocket communication. The main goal is to provide real-time monitoring of temperature, humidity, gas concentration, and light intensity from the Arduino device. Additionally, the dashboard offers automation features based on user-defined threshold values for environmental parameters.
-
+ 
 ### Key Features:
 
 - **Authentication**:

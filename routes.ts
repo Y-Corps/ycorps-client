@@ -6,9 +6,9 @@ export const publicRoutes = [
     // "/auth/error",
     // "/auth/reset",
     // "/auth/new-password",
-    // "/iotsettings",
-    // "/settings",
-    // "/dashboard",
+    "/iotsettings",
+    "/settings",
+    "/dashboard",
 ];
 
 export const authRoutes = [

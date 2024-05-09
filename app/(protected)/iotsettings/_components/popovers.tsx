@@ -7,6 +7,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import { io } from "socket.io-client";
+
+const IO = io(process.env.NEXT_PUBLIC_SOCKET_URL || "");
 
 interface PopoversProps {
     poplabel: string;
@@ -14,18 +17,30 @@ interface PopoversProps {
     desc: string;
     setInitialValue: string;
     setFinalValue: string;
-    onSave: () => void;
+    threshold?: string;
 }
 
 export function Popovers({
     poplabel,
     label,
     desc,
-
+    threshold,
     setInitialValue,
     setFinalValue,
-    onSave,
 }: PopoversProps) {
+    const onSave = (event: React.FormEvent) => {
+        event.preventDefault();
+        const max = document.getElementById(
+            "maxValue"
+        ) as HTMLInputElement | null;
+        const min = document.getElementById(
+            "minValue"
+        ) as HTMLInputElement | null;
+        const maxValue = max?.value;
+        const minValue = min?.value;
+
+        IO.emit(threshold || "", { min: minValue, max: maxValue });
+    };
     return (
         <Popover>
             <PopoverTrigger asChild>
@@ -41,24 +56,25 @@ export function Popovers({
                     </div>
                     <div className="grid gap-2">
                         <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="width">Min Range</Label>
+                            <Label htmlFor="minValue">Min Range</Label>
                             <Input
-                                id="width"
+                                id="minValue"
+                                type="number"
                                 defaultValue={setInitialValue}
                                 className="col-span-2 h-8"
                             />
                         </div>
                         <div className="grid grid-cols-3 items-center gap-4">
-                            <Label htmlFor="maxWidth">Max Range</Label>
+                            <Label htmlFor="maxValue">Max Range</Label>
                             <Input
-                                id="maxWidth"
+                                id="maxValue"
                                 defaultValue={setFinalValue}
                                 className="col-span-2 h-8"
                             />
                         </div>
                     </div>
                     <CardFooter>
-                        <Button>Save Changes</Button>
+                        <Button onClick={onSave}>Save Changes</Button>
                     </CardFooter>
                 </form>
             </PopoverContent>

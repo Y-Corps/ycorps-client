@@ -16,6 +16,11 @@ const Page = () => {
     const [isFanOn, setIsFanOn] = useState<any>(false);
     const [isVentOn, setIsVentOn] = useState<any>(false);
     const [currentTime, setcurrentTime] = useState<string>("");
+    const [temperature, setTemperature] = useState<any>("");
+    const [humidity, setHumidity] = useState<any>("");
+    const [lightIntensity, setLightIntensity] = useState<any>("");
+    const [gasConcentration, setGasConcentration] = useState<any>("");
+
     useEffect(() => {
         socket.on("isFanOn", (data) => {
             if (data === "on") {
@@ -65,11 +70,23 @@ const Page = () => {
 
     useEffect(() => {
         setInterval(() => {
-            setcurrentTime(new Date().toLocaleTimeString([], { hour12: true }));
-            socket.emit(
-                "isFanOn",
-                new Date().toLocaleTimeString([], { hour12: true })
-            );
+            setcurrentTime(new Date().toLocaleTimeString());
+
+            socket.on("mq135Data", (data) => {
+                setGasConcentration(data["concentration"]);
+            });
+
+
+            socket.on("dhtData", (data) => {
+                setTemperature(data["temperature"]);
+                setHumidity(data["humidity"]);
+            });
+
+            socket.on("ldrData", (data) => {
+                setLightIntensity(data["light_intensity"]);
+            });
+
+
         }, 1000);
     }, [socket]);
 
@@ -84,13 +101,16 @@ const Page = () => {
                 </CardHeader>
                 <div className="flex w-[100%] flex-wrap gap-y-3 justify-between flex-row">
                     <DHT11
-                        temprature="30"
-                        humidity="50"
+                        temprature={temperature}
+                        humidity={humidity}
                         timeStamp={currentTime}
                     />
-                    <MQ135 gasConcentration="250" timeStamp={currentTime} />
+                    <MQ135
+                        gasConcentration={gasConcentration}
+                        timeStamp={currentTime}
+                    />
                     <LDRCard
-                        lightIntensity="150"
+                        lightIntensity={lightIntensity}
                         resistance="44"
                         timeStamp={currentTime}
                     />
