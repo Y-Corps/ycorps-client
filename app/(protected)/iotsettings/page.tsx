@@ -95,14 +95,14 @@ const Page = () => {
                                 </div>
                             </div>
                             <Switch
-                                checked={isAutomated}
-                                onCheckedChange={(isChecked) => {
-                                    const message = isChecked ? "on" : "off";
-                                    IO.emit("isAutomated", message);
-                                    message === "on" && setIsAutomated(true);
-                                    message === "off" && setIsAutomated(false);
-                                }}
-                            />
+                                    checked={isAutomated}
+                                    onCheckedChange={(isChecked) => {
+                                        const message = { "isAutomated": isChecked };
+
+                                        IO.emit("isAutomated", message);
+                                        setIsAutomated(isChecked);
+                                    }}
+                                />
                         </div>
                         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm hover:bg-slate-200">
                             <div className="space-y-0.5">
@@ -157,7 +157,7 @@ const Page = () => {
                                     onCheckedChange={(isChecked) => {
                                         const message = { "isVentOn": isChecked };
                                         IO.emit("isVentOn", message);
-                                        // setIsVentON(isChecked);
+                                        setIsVentON(isChecked);
                                     }}
                                 />
                             )}
@@ -185,8 +185,8 @@ const Page = () => {
                                 <Switch
                                     checked={isLightON}
                                     onCheckedChange={(isChecked) => {
-                                        const message = { "is_automated": isChecked };
-                                        IO.emit("isLightOn", {"message":message});
+                                        const message = { "isLightOn": isChecked };
+                                        IO.emit("isLightOn", message);
                                         setIsLightON(isChecked);
                                     }}
                                 />
