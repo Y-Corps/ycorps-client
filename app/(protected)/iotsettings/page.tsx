@@ -10,55 +10,53 @@ import { MdOutlineSettingsInputComponent } from "react-icons/md";
 const IO = io(process.env.NEXT_PUBLIC_SOCKET_URL || "");
 const Page = () => {
     const [isAutomated, setIsAutomated] = useState<boolean>(false);
-    const [isFanON2, setIsFanON] = useState<boolean>(true);
+    const [isFanON2, setIsFanON] = useState<boolean>(false);
     const [isVentON, setIsVentON] = useState<boolean>(false);
     const [isLightON, setIsLightON] = useState<boolean>(false);
 
     useEffect(() => {
         if (IO) {
-            IO.on("isAutomated", (data: string) => {
-                if (data === "on") {
+            IO.on("isAutomated", (data) => {
+                if (data["isAutomated"]) {
                     setIsAutomated(true);
                     console.log(data);
                 }
-                if (data === "off") {
+                if (!data["isAutomated"]) {
                     setIsAutomated(false);
                     console.log(data);
                 }
                 console.log(data);
             });
 
-            IO.on("isFanOn", (data: string) => {
-                if (data === "on") {
+            IO.on("isFanOn", (data) => {
+                if (data["isFanOn"]) {
                     setIsFanON(true);
                     console.log(data);
                 }
-                if (data === "off") {
+                if (!data["isFanOn"]) {
                     setIsFanON(false);
                     console.log(data);
                 }
                 console.log(data);
             });
-
-            IO.on("isLightOn", (data: string) => {
-                if (data === "on") {
-                    setIsLightON(true);
+            IO.on("isVentOn", (data) => {
+                if (data["isVentOn"]) {
+                    setIsVentON(true);
                     console.log(data);
                 }
-                if (data === "off") {
-                    setIsLightON(false);
+                if (!data["isVentOn"]) {
+                    setIsVentON(false);
                     console.log(data);
                 }
                 console.log(data);
             });
-
-            IO.on("isVentOn", (data: string) => {
-                if (data === "on") {
-                    setIsVentON(true);
+            IO.on("isLightOn", (data) => {
+                if (data["isLightOn"]) {
+                    setIsLightON(true);
                     console.log(data);
                 }
-                if (data === "off") {
-                    setIsVentON(false);
+                if (!data["isLightOn"]) {
+                    setIsLightON(false);
                     console.log(data);
                 }
                 console.log(data);
@@ -115,8 +113,8 @@ const Page = () => {
                                     poplabel="Temp"
                                     label="Temprature Value"
                                     desc="Set threshold Value for DHT11 sensor in (°C)"
-                                    setInitialValue="30"
-                                    setFinalValue="36"
+                                    setInitialValue={30}
+                                    setFinalValue={40}
                                     // onSave={onsave}
                                     threshold="DTHThreshold"
                                 />
@@ -146,8 +144,8 @@ const Page = () => {
                                     poplabel="Gas"
                                     label="Gas Concentration"
                                     desc="Set threshold Value for MQ135 sensor in (ppm)"
-                                    setInitialValue="200"
-                                    setFinalValue="250"
+                                    setInitialValue={40}
+                                    setFinalValue={50}
                                     // onSave={onsave}
                                     threshold="MQ135Threshold"
                                 />
@@ -176,8 +174,8 @@ const Page = () => {
                                     poplabel="Light"
                                     label="Gas Concentration"
                                     desc="Set threshold Value for LDR sensor in (lux)"
-                                    setInitialValue="150"
-                                    setFinalValue="200"
+                                    setInitialValue={10}
+                                    setFinalValue={23}
                                     // onSave={onsave}
                                     threshold="LDRThreshold"
                                 />

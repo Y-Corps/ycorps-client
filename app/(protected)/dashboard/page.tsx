@@ -23,49 +23,56 @@ const Page = () => {
 
     useEffect(() => {
         socket.on("isFanOn", (data) => {
-            if (data === "on") {
+            if (data["isFanOn"]) {
                 setIsFanOn(true);
                 console.log(data);
             }
-            if (data === "off") {
+            if (!data["isFanOn"]) {
                 setIsFanOn(false);
                 console.log(data);
             }
             console.log(data);
         });
+        socket.on("isVentOn", (data) => {
+            if (data["isVentOn"]) {
+                setIsVentOn(true);
+                console.log(data);
+            }
+            if (!data["isVentOn"]) {
+                setIsVentOn(false);
+                console.log(data);
+            }
+            console.log(data);
+        });
         socket.on("isLightOn", (data) => {
-            if (data === "on") {
+            if (data["isLightOn"]) {
                 setIsLighton(true);
                 console.log(data);
             }
-            if (data === "off") {
+            if (!data["isLightOn"]) {
                 setIsLighton(false);
                 console.log(data);
             }
             console.log(data);
         });
-        socket.on("isVentOn", (data) => {
-            if (data === "on") {
-                setIsVentOn(true);
-                console.log(data);
-            }
-            if (data === "off") {
-                setIsVentOn(false);
-                console.log(data);
-            }
-            console.log(data);
-        });
-        socket.on("isVentOn", (data) => {
-            if (data === "on") {
-                setIsVentOn(true);
-                console.log(data);
-            }
-            if (data === "off") {
-                setIsVentOn(false);
-                console.log(data);
-            }
-            console.log(data);
-        });
+        
+
+
+
+
+
+        // socket.on("isVentOn", (data) => {
+
+        //     if (data[""]) {
+        //         setIsVentOn(true);
+        //         console.log(data);
+        //     }
+        //     if (data === "off") {
+        //         setIsVentOn(false);
+        //         console.log(data);
+        //     }
+        //     console.log(data);
+        // });
     }, []);
 
     useEffect(() => {
@@ -88,7 +95,7 @@ const Page = () => {
 
 
         }, 1000);
-    }, [socket]);
+    }, []);
 
     return (
         <>

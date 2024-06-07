@@ -12,15 +12,15 @@ const LDRCard = ({ resistance, lightIntensity,timeStamp }: LDRCardProps) => {
                     LDRCard
                 </h5>
             </div>
-            <div className="flex flex-row justify-between items-center">
+            {/* <div className="flex flex-row justify-between items-center">
                 <h6 className="mb-2 text-xl font-bold tracking-tight text-gray-600 dark:text-white">
                     Resistance
                 </h6>
                 <h1 className="mb-2 text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {resistance} Ω
                 </h1>
-            </div>
-            <div className="flex flex-row justify-between gap-10">
+            </div> */}
+            <div className="flex flex-row justify-between items-center  gap-10 w-full h-full">
                 <div>
                     <h6 className="mb-2 text-xl font-bold tracking-tight text-gray-600 dark:text-white">
                         Light Intensity

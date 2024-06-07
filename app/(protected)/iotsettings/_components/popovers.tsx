@@ -15,8 +15,8 @@ interface PopoversProps {
     poplabel: string;
     label?: string;
     desc: string;
-    setInitialValue: string;
-    setFinalValue: string;
+    setInitialValue: number;
+    setFinalValue: number;
     threshold?: string;
 }
 
